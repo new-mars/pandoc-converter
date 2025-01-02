@@ -19,23 +19,20 @@
 ## 快速开始
 
 1. 克隆项目：
-bash
-git clone https://github.com/你的用户名/pandoc-converter.git
-cd pandoc-converter
-
+   bash
+   git clone https://github.com/new-mars/pandoc-converter.git
+   cd pandoc-converter
 2. 安装依赖：
-bash
-pip install -r requirements.txt
-
+   bash
+   pip install -r requirements.txt
 3. 安装 Pandoc：
+
    - Windows: 从 [Pandoc Releases](https://github.com/jgm/pandoc/releases/latest) 下载安装包
    - macOS: `brew install pandoc`
    - Linux: `sudo apt-get install pandoc`
-
 4. 运行应用：
-bash
-python app.py
-
+   bash
+   python app.py
 5. 访问应用：
    在浏览器中打开 http://127.0.0.1:5000
 
@@ -47,6 +44,7 @@ python app.py
 4. 点击下载链接获取转换后的文件
 
 ## 项目结构
+
 pandoc-converter/
 ├── app.py # 主应用程序
 ├── requirements.txt # Python 依赖
@@ -56,7 +54,6 @@ pandoc-converter/
 │ └── index.html # 主页面模板
 ├── uploads/ # 上传文件临时目录
 └── output/ # 转换后文件保存目录
-
 
 ## 维护说明
 
