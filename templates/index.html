@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pandoc 文件转换器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .convert-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pandoc 文件转换器</h1>
+        
+        <div class="convert-section">
+            <h3>Word 转 Markdown</h3>
+            <form id="wordForm" class="convert-form">
+                <input type="file" name="files" id="wordFiles" multiple accept=".docx">
+                <button type="button" onclick="convertFiles('word')" id="wordButton">转换 Word</button>
+                <div id="wordStatus"></div>
+            </form>
+        </div>
+
+        <div class="convert-section">
+            <h3>HTML 转 Markdown</h3>
+            <form id="htmlForm" class="convert-form">
+                <input type="file" name="files" id="htmlFiles" multiple accept=".html">
+                <button type="button" onclick="convertFiles('html')" id="htmlButton">转换 HTML</button>
+                <div id="htmlStatus"></div>
+            </form>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function convertFiles(type) {
+            try {
+                const formId = type + 'Form';
+                const fileInputId = type + 'Files';
+                const statusDivId = type + 'Status';
+                const buttonId = type + 'Button';
+
+                const form = document.getElementById(formId);
+                const fileInput = document.getElementById(fileInputId);
+                const statusDiv = document.getElementById(statusDivId);
+                const button = document.getElementById(buttonId);
+                const resultDiv = document.getElementById('result');
+
+                console.log('开始转换', type, '文件');
+                console.log('表单元素:', form);
+                console.log('文件输入元素:', fileInput);
+                
+                if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                    statusDiv.innerHTML = '<div class="error">请先选择文件！</div>';
+                    return;
+                }
+
+                // 禁用按钮，防止重复提交
+                button.disabled = true;
+                statusDiv.innerHTML = '<div>正在转换...</div>';
+                
+                const formData = new FormData();
+                for (let file of fileInput.files) {
+                    console.log('添加文件到表单:', file.name);
+                    formData.append('files', file);
+                }
+                // 根据类型设置正确的格式
+                formData.append('type', type === 'word' ? 'docx' : 'html');
+
+                console.log('发送请求到服务器...');
+                const response = await fetch('/convert', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('收到服务器响应:', response.status);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.text();
+                console.log('转换结果:', result);
+                
+                resultDiv.innerHTML = result;
+                statusDiv.innerHTML = '<div class="success">转换完成</div>';
+            } catch (error) {
+                console.error('转换错误:', error);
+                const resultDiv = document.getElementById('result');
+                const statusDiv = document.getElementById(type + 'Status');
+                resultDiv.innerHTML = '转换过程中出错：' + error.message;
+                statusDiv.innerHTML = '<div class="error">转换失败</div>';
+            } finally {
+                // 恢复按钮
+                const button = document.getElementById(type + 'Button');
+                if (button) {
+                    button.disabled = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

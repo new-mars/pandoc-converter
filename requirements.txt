@@ -1,0 +1,28 @@
+# Web 框架
+Flask>=2.0.0
+
+# 文件处理
+Werkzeug>=2.0.0
+
+# 系统相关
+python-dotenv>=0.19.0
+
+# 系统依赖 (需要单独安装)
+# ========================
+# Pandoc >= 3.1.6
+# 安装方法：
+#   Windows: 
+#     - 下载安装包：https://github.com/jgm/pandoc/releases/latest
+#     - 或使用 chocolatey: choco install pandoc
+#   
+#   macOS:
+#     - 使用 Homebrew: brew install pandoc
+#   
+#   Linux:
+#     - Ubuntu/Debian: sudo apt-get install pandoc
+#     - CentOS/RHEL: sudo dnf install pandoc
+#
+# 安装后验证：
+#   pandoc --version
+#
+# 更多信息：https://pandoc.org/installing.html 
