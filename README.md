@@ -69,7 +69,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 作者
 
-[您的名字]
+[new-mars]
 
 ## 致谢
 
